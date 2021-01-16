@@ -91,21 +91,31 @@ namespace WpfApp1
                 MessageBox.Show("Departure Date can't be after Return date!");
                 return;
             }
-            Trip trip = new Trip(destination,name,passport,departure,retTime);
-            
-            if(!trips.Contains(trip))
+            Trip trip;
+            try
             {
-                if(trip != null)
+               trip  = new Trip(destination, name, passport, departure, retTime);
+                if (!trips.Contains(trip))
                 {
-                    trips.Add(trip);
-                    UpdateContent();
+                    if (trip != null)
+                    {
+                        trips.Add(trip);
+                        UpdateContent();
+                    }
+
                 }
-                
+                else
+                {
+                    MessageBox.Show("this trip already exists");
+                }
             }
-            else
+            catch(InvalidDataException err)
             {
-                MessageBox.Show("this trip already exists");
+                MessageBox.Show(err.Message);
             }
+            
+            
+            
 
         }
 
