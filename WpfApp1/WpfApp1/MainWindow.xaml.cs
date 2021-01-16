@@ -41,13 +41,21 @@ namespace WpfApp1
                     string line = string.Empty;
                     while ((line = sr.ReadLine()) != null)
                     {
-                        
-                        Trip trip = new Trip(line);
-                        trips.Add(trip);
+                        try
+                        {
+                            Trip trip = new Trip(line);
+                            trips.Add(trip);
+                        }
+                        catch (InvalidDataException err)
+                        {
+                            MessageBox.Show(err.Message);
+                            continue;
+                        }  
                     }
                 }
 
             }
+            
             catch (FileNotFoundException)
             {
                 MessageBox.Show("The file was not found");
@@ -164,12 +172,21 @@ namespace WpfApp1
                 return;
             }
             Trip ItemToUpdate = (Trip)LvGvTrip.SelectedItems[0];
-            ItemToUpdate.Destination = TboxDestination.Text;
-            ItemToUpdate.Name = TboxName.Text;
-            ItemToUpdate.Passport = TboxPassport.Text;
-            ItemToUpdate.Departure = (DateTime)DPickerDeparture.SelectedDate;
-            ItemToUpdate.Return = (DateTime)DPickerReturn.SelectedDate;
-            UpdateContent();
+            try
+            {
+                ItemToUpdate.Destination = TboxDestination.Text;
+                ItemToUpdate.Name = TboxName.Text;
+                ItemToUpdate.Passport = TboxPassport.Text;
+                ItemToUpdate.Departure = (DateTime)DPickerDeparture.SelectedDate;
+                ItemToUpdate.Return = (DateTime)DPickerReturn.SelectedDate;
+                UpdateContent();
+            }
+            catch (InvalidDataException err)
+            {
+                MessageBox.Show(err.Message);
+            }
+        
+            
         }
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)

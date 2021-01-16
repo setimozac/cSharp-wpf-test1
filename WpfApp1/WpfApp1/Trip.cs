@@ -95,6 +95,7 @@ namespace WpfApp1
 
         public Trip(string line)
         {
+            if(line.Split(';').Length != 5) throw new InvalidDataException("corrupted line in the file!");
             Destination = line.Split(';')[0];
             Name = line.Split(';')[1];
             Passport = line.Split(';')[2];
